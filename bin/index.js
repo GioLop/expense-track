@@ -7,12 +7,13 @@ const updateController = require('../src/controllers/updateController');
 const deleteController = require('../src/controllers/deleteController');
 const listController = require('../src/controllers/listController');
 const summaryController = require('../src/controllers/summaryController');
+const generateController = require('../src/controllers/generateController');
 
 const program = new Command();
 
 program
   .name('expense-tracker')
-  .description('CLI to some JavaScript string utilities')
+  .description('CLI expense tracker application to manage your finances')
   .version('0.1');
 
 program
@@ -45,6 +46,12 @@ program
   .description('Get a summary of the expenses')
   .option('-m --month <number>', 'month of current year')
   .action(summaryController);
+
+program
+  .command('generate')
+  .description('Generate a CSV file')
+  .option('-d --destinity', 'target to save file', '')
+  .action(generateController);
 
 program.parse(process.argv);
 
