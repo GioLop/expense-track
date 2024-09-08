@@ -2,11 +2,15 @@
   "name": "expense-track",
   "version": "1.0.0",
   "description": "A simple expense tracker CLI application to manage your finances. The application allows users to add, delete, and view their expenses. The application also provides a summary of the expenses.",
-  "main": "index.js",
+  "main": "/bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": "./bin/index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.1.0"
+  }
 }
