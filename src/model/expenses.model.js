@@ -1,41 +1,12 @@
-const fs = require('fs').promises;
 const path = require('path');
 const { customAlphabet } = require('nanoid');
 const { getDateFormatted, getYearMonth } = require('../lib/date.lib');
 const { DoesNotExistError } = require('../lib/errors.lib');
+const { getDataFromFile, writeDataInFile } = require('../lib/file.lib');
 
 const nanoid = customAlphabet('1234567890abcdef', 10)
 
 const DATA_SOURCE = path.join('..', '/', 'data', '/', 'expenses.json');
-const STANDARD = 'utf8';
-
-const checkFileExistence = async path => !!(await fs.stat(path).catch(e => false));
-
-const getDataFromFile = async () => {
-  const fileExists = await checkFileExistence (path.resolve(__dirname, DATA_SOURCE));
-  let data = {};
-  
-  if (!fileExists) {
-    return data; 
-  }
-  
-  data = JSON.parse(
-    await fs.readFile(
-      path.resolve(__dirname, DATA_SOURCE), 
-      STANDARD
-    )
-  );
-
-  return data;
-};
-
-const writeDataInFile = async (obj) => {
-  await fs.writeFile(
-    path.resolve(__dirname, DATA_SOURCE), 
-    JSON.stringify(obj), 
-    STANDARD
-  );
-};
 
 const addExpense = async ({ description, amount }) => {
   const id = nanoid();
@@ -47,15 +18,15 @@ const addExpense = async ({ description, amount }) => {
     date
   };
 
-  const data = await getDataFromFile();
+  const data = await getDataFromFile(DATA_SOURCE);
   data[id] = newExpense;
-  await writeDataInFile(data);
+  await writeDataInFile(data, DATA_SOURCE);
   
   return newExpense;
 };
 
 const getExpenseById = async ({ id }) => {
-  const data = await getDataFromFile();
+  const data = await getDataFromFile(DATA_SOURCE);
   const expense = data[id];
   
   if (!expense) {
@@ -67,16 +38,16 @@ const getExpenseById = async ({ id }) => {
 
 const deleteExpense = async ({ id }) => {
   const expense = await getExpenseById({ id });
-  const data = await getDataFromFile();
+  const data = await getDataFromFile(DATA_SOURCE);
   
   delete data[expense.id];  
 
-  await writeDataInFile(data);
+  await writeDataInFile(data, DATA_SOURCE);
   return expense;
 };
 
 const getAllExpenses = async () => {
-  const data = await getDataFromFile();
+  const data = await getDataFromFile(DATA_SOURCE);
   return Object.values(data);
 };
 
@@ -89,7 +60,7 @@ const getExpensesByMonth = async ({ month }) => {
 
 const updateExpense = async ({ id, updates }) => {
   const expense = await getExpenseById({ id });
-  const data = await getDataFromFile();
+  const data = await getDataFromFile(DATA_SOURCE);
   
   const updated = { 
     ...expense,
@@ -98,7 +69,7 @@ const updateExpense = async ({ id, updates }) => {
   };
   
   data[id] = updated;
-  await writeDataInFile(data);
+  await writeDataInFile(data, DATA_SOURCE);
   
   return updated;
 };

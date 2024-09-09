@@ -10,6 +10,19 @@ const formatListExpenses = ({ expenses }) => {
   return `${header}\n${list}`;
 };
 
+const generateExpensesCSVFormat = (data) => {
+  const header = 'ID,Date,Description,Amount';
+  const body = data.map(({ 
+    id,
+    date,
+    description,
+    amount
+  }) => `${id},${date},${description},${amount}`).join('\n');
+  
+  return`${header}\n${body}`;
+};
+
 module.exports = {
-  formatListExpenses
+  formatListExpenses,
+  generateExpensesCSVFormat
 };

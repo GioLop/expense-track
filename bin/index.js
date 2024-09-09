@@ -51,8 +51,6 @@ program
 program
   .command('generate')
   .description('Generate a CSV file')
-  .option('--destination', 'target to save file', '')
   .action(generateController);
 
 program.parse(process.argv);
-
