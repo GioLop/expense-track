@@ -1,8 +1,8 @@
-const { add } = require("../model/expensesModel");
+const { addExpense } = require("../model/expenses.model");
 
 module.exports = async ({ description, amount }) => {
   try {
-    const { id } = await add({ description, amount });
+    const { id } = await addExpense({ description, amount });
     console.log(`Expense added successfully (ID: ${id})`);
   } catch (error) {
     console.log(error);

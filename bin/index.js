@@ -2,12 +2,12 @@
 
 const { Command } = require('commander');
 
-const addController = require('../src/controllers/addController');
-const updateController = require('../src/controllers/updateController');
-const deleteController = require('../src/controllers/deleteController');
-const listController = require('../src/controllers/listController');
-const summaryController = require('../src/controllers/summaryController');
-const generateController = require('../src/controllers/generateController');
+const addController = require('../src/controllers/add.controller');
+const updateController = require('../src/controllers/update.controller');
+const deleteController = require('../src/controllers/delete.controller');
+const listController = require('../src/controllers/list.controller');
+const summaryController = require('../src/controllers/summary.controller');
+const generateController = require('../src/controllers/generate.controller');
 
 const program = new Command();
 
@@ -19,21 +19,21 @@ program
 program
   .command('add')
   .description('Add an expense to track it')
-  .option('-d, --description <string>', 'expense description', '')
-  .option('-a, --amount <number>', 'expense ammount', parseInt)
+  .option('--description <string>', 'expense description', '')
+  .option('--amount <number>', 'expense ammount', parseInt)
   .action(addController);
 
 program
   .command('update')
   .description('Update an expense')
-  .option('-d, --description <string>', 'expense description', '')
-  .option('-a, --amount <number>', 'expense ammount', parseInt)
+  .option('--description <string>', 'expense description', '')
+  .option('--amount <number>', 'expense ammount', parseInt)
   .action(updateController);
 
 program
   .command('delete')
   .description('Delete an expense')
-  .option('-i --id <string>', 'expense identificator', '')
+  .option('--id <string>', 'expense identificator', '')
   .action(deleteController);
 
 program
@@ -44,13 +44,13 @@ program
 program
   .command('summary')
   .description('Get a summary of the expenses')
-  .option('-m --month <number>', 'month of current year')
+  .option('--month <number>', 'month of current year')
   .action(summaryController);
 
 program
   .command('generate')
   .description('Generate a CSV file')
-  .option('-d --destinity', 'target to save file', '')
+  .option('--destination', 'target to save file', '')
   .action(generateController);
 
 program.parse(process.argv);
