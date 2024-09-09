@@ -1,9 +1,7 @@
 const fs = require('fs').promises;
-const createReadStream = require('fs').createReadStream;
 const path = require('path');
-const csvParser = require('csv-parser');
 const { customAlphabet } = require('nanoid');
-const { getDateFormatted } = require('../lib/date.lib');
+const { getDateFormatted, getYearMonth } = require('../lib/date.lib');
 const { DoesNotExistError } = require('../lib/errors.lib');
 
 const nanoid = customAlphabet('1234567890abcdef', 10)
@@ -83,9 +81,10 @@ const getAllExpenses = async () => {
 };
 
 const getExpensesByMonth = async ({ month }) => {
-  const data = await getDataFromFile();
-  const currentYear = '';
-  return Object.values(data);
+  const yearMonth = getYearMonth({ month });
+  const expenses = await getAllExpenses();
+  
+  return expenses.filter((expense) => expense.date.startsWith(yearMonth));
 };
 
 const updateExpense = async ({ id, updates }) => {
@@ -114,8 +113,7 @@ const getSummary = async () => {
 };
 
 const getSummaryByMonth = async ({ month }) => {
-  const expenses = await getAllExpenses();
-  const monthExpenses = expenses.filter();
+  const monthExpenses = await getExpensesByMonth({ month });
   const summary = monthExpenses.reduce(sumAmounts, 0);
 
   return summary;

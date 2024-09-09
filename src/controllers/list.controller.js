@@ -5,6 +5,7 @@ module.exports = async () => {
   try {
     const expenses = await getAllExpenses();
     const listFormatted = formatListExpenses({ expenses });
+    
     console.log(listFormatted);
   } catch ({ message }) {
     console.log(message);
