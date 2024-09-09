@@ -5,7 +5,7 @@ const formatListExpenses = ({ expenses }) => {
     date, 
     description, 
     amount
-  }) => `${id}\t${date}\t${description}\t\t\t${amount}`).join('\n');
+  }) => `${id}\t${date}\t${description}\t\t${amount}`).join('\n');
 
   return `${header}\n${list}`;
 };
