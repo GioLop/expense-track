@@ -3,7 +3,7 @@ const createReadStream = require('fs').createReadStream;
 const path = require('path');
 const csvParser = require('csv-parser');
 const { customAlphabet } = require('nanoid');
-const { getCurrentDateUTC } = require('../lib/date.lib');
+const { getDateFormatted } = require('../lib/date.lib');
 const { DoesNotExistError } = require('../lib/errors.lib');
 
 const nanoid = customAlphabet('1234567890abcdef', 10)
@@ -41,7 +41,7 @@ const writeDataInFile = async (obj) => {
 
 const addExpense = async ({ description, amount }) => {
   const id = nanoid();
-  const date = getCurrentDateUTC();
+  const date = getDateFormatted();
   const newExpense = {
     id,
     description,
