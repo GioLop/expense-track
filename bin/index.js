@@ -26,6 +26,7 @@ program
 program
   .command('update')
   .description('Update an expense')
+  .option('--id <sring>', 'expense id', '')
   .option('--description <string>', 'expense description', '')
   .option('--amount <number>', 'expense ammount', parseInt)
   .action(updateController);

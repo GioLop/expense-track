@@ -91,7 +91,12 @@ const getExpensesByMonth = async ({ month }) => {
 const updateExpense = async ({ id, updates }) => {
   const expense = await getExpenseById({ id });
   const data = await getDataFromFile();
-  const updated = { ...expense, ...updates };
+  
+  const updated = { 
+    ...expense,
+    description: updates.description || expense.description,
+    amount: updates.amount || expense.amount
+  };
   
   data[id] = updated;
   await writeDataInFile(data);
